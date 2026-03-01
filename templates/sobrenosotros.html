@@ -1,33 +1,46 @@
-
-{% extends "base.html" %}
-   
- 
+{% extends "base.html" %} 
 {% block contenido %}
+    <h1>Hola, soy el mejor</h1>
+    <h4>Taller de Apps - Sobre Nosotros</h4>
 
-   
+    <form action="/sobrenosotros" method="post">
+        {{ form.csrf_token() }}
+        {{ form.titulo.label }}
+        {{ form.titulo }}
+        {{ form.enviar }}
+    </form> 
 
+    {% if titulo %}
+        <h3 style="color: green;">¡Agregaste: {{titulo}}!</h3>
+    {% endif %}
 
+    <hr>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>peter eres el mejor</title>
-</head>
-<body>
-    <h1>holas soy el mejor</h1>
-    <h4>taller de apps sobre nosotros</h4>
-</body>
-</html>
- <form action="/sobrenosotros" method="post">
-   {{ form.csrf_token() }}
-   {{ form.titulo.label }}
-   {{ form.titulo }}
-   {{ form.enviar }}
-</form> 
-{%if titulo %}
-    <h2>{{titulo}}</h2>
-{%endif%}
+    <h3>Lista de Tareas</h3>
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre de la Tarea</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarea in tareas %}
+            <tr>
+                <td>{{ tarea.id }}</td>
+                <td>{{ tarea.titulo }}</td>
+                <td>
+                    <a href="#">Editar</a> | 
+                    <a href="#">Eliminar</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">No hay tareas registradas todavía.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

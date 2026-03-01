@@ -16,9 +16,12 @@ def sobrenosotros():
         db.session.commit()
 
         print(' envio correctamente', formulario.titulo.data)
+        todas_las_tareas = Tareas.query.all()
         return render_template('sobrenosotros.html', 
                                 form = formulario,
-                                titulo = formulario.titulo.data)
+                                tareas = todas_las_tareas,
+                                titulo = formulario.titulo.data if formulario.validate_on_submit() else None)
+    
     return render_template('sobrenosotros.html', form = formulario)
 @app.route('/saludo')
 def saludo():
