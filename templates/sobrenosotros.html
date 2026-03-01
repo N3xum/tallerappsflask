@@ -20,5 +20,14 @@
     <h4>taller de apps sobre nosotros</h4>
 </body>
 </html>
+ <form action="/sobrenosotros" method="post">
+   {{ form.csrf_token() }}
+   {{ form.titulo.label }}
+   {{ form.titulo }}
+   {{ form.enviar }}
+</form> 
+{%if titulo %}
+    <h2>{{titulo}}</h2>
+{%endif%}
 
 {% endblock %}
