@@ -1,3 +1,4 @@
+from flask import render_template, redirect, url_for
 from app import app, db
 from flask import render_template
 import formularios
@@ -30,3 +31,18 @@ def saludo():
 @app.route('/usuario/<nombre>')
 def usuario(nombre):
     return f'hola {nombre} bienvenido a taller de apss'
+
+
+
+# ELIMINAR - Vallejos Roberto 
+@app.route('/eliminar/<int:id>')
+def eliminar(id):
+    
+    tarea_a_eliminar = Tareas.query.get(id)
+    
+    
+    if tarea_a_eliminar:
+        db.session.delete(tarea_a_eliminar)
+        db.session.commit()
+        
+    return redirect(url_for('sobrenosotros'))
