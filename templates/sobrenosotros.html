@@ -31,7 +31,7 @@
                 <td>{{ tarea.id }}</td>
                 <td>{{ tarea.titulo }}</td>
                 <td>
-                    <a href="#">Editar</a> | 
+                    <a href="{{ url_for('editar', id=tarea.id) }}">Editar</a> | 
                     <a href="{{ url_for('eliminar', id=tarea.id) }}" onclick="return confirm('¿Estás seguro de que quieres eliminar esta tarea?');">Eliminar</a>
                 </td>
             </tr>

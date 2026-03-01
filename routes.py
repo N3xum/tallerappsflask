@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from app import app, db
 from flask import render_template
 import formularios
@@ -17,13 +17,13 @@ def sobrenosotros():
         db.session.commit()
 
         print(' envio correctamente', formulario.titulo.data)
-        todas_las_tareas = Tareas.query.all()
-        return render_template('sobrenosotros.html', 
+    todas_las_tareas = Tareas.query.all()
+    return render_template('sobrenosotros.html', 
                                 form = formulario,
                                 tareas = todas_las_tareas,
                                 titulo = formulario.titulo.data if formulario.validate_on_submit() else None)
     
-    return render_template('sobrenosotros.html', form = formulario)
+    
 @app.route('/saludo')
 def saludo():
     return 'bienvenidos a taller de apss'
@@ -46,3 +46,26 @@ def eliminar(id):
         db.session.commit()
         
     return redirect(url_for('sobrenosotros'))
+
+# EDITAR - PETER CAMACHO
+@app.route('/editar/<int:id>', methods=['GET', 'POST'])
+def editar(id):
+   
+    tarea_a_editar = Tareas.query.get(id)
+    
+   
+    formulario = formularios.FormAgregarTareas()
+    
+   
+    if formulario.validate_on_submit():
+        tarea_a_editar.titulo = formulario.titulo.data
+        db.session.commit()
+        
+        return redirect(url_for('sobrenosotros'))
+        
+    
+    elif request.method == 'GET':
+        formulario.titulo.data = tarea_a_editar.titulo
+        
+    
+    return render_template('editar.html', form=formulario, tarea=tarea_a_editar)
